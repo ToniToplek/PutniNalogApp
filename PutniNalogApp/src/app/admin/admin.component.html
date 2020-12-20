@@ -1,0 +1,185 @@
+<div class="jumbotron py-0 pb-4">
+    <h1 class="display-4 text-center">Administracijsko sučelje</h1>
+</div>
+<div>
+    <h3 class="text-center">Lokacije</h3>
+    <table class="table">
+        <thead class="thead-light">
+            <tr >
+                <th>Naziv lokacije</th>
+                <th class="text-right">
+                    <i class="fas fa-plus-circle fa-lg text-success " (click)="open(lokacija)"></i>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pd of service.listLokacija">
+                <td (click)="populateFormLokacija(pd)">{{pd.naziv}}</td>
+
+                <td align="right">
+                    
+                    <i class="fas fa-pencil-alt fa-lg text-primary ms-3" (click)="openPutLokacija(lokacija, pd)"></i>
+                    <i class="far fa-trash-alt fa-lg text-danger ms-3" (click)="onDeleteLokacija(pd.idLokacija)"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h3 class="text-center">Putnici</h3>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th class="text-right"><i class="fas fa-plus-circle fa-lg text-success" (click)="open(putnik)"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pd of service.listPutnika">
+                <td (click)="populateFormKorisnici(pd)">{{pd.imeKorisnik}}</td>
+                <td (click)="populateFormKorisnici(pd)">{{pd.prezimeKorisnik}}</td>
+                <td align="right">
+                    
+                    <i class="fas fa-pencil-alt fa-lg text-primary ms-3" (click)="openPutPutnik(putnik, pd)"></i>
+                    <i class="far fa-trash-alt fa-lg text-danger ms-3" (click)="onDeletePutnik(pd.idKorisnik)"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h3 class="text-center">Automobili</h3>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Marka</th>
+                <th>Naziv</th>
+                <th>Registracija</th>
+                <th>Vrsta</th>
+                <th class="text-right"><i class="fas fa-plus-circle fa-lg text-success " (click)="open(auto)"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pd of service.listAuto">
+                <td>{{pd.markaAuta}}</td>
+                <td>{{pd.nazivAuta}}</td>
+                <td>{{pd.registracijaAuta}}</td>
+                <td>{{pd.vrstaPrijevoza}}</td>       
+                        
+                <td align="right">                   
+                    <i class="fas fa-pencil-alt fa-lg text-primary ms-3" (click)="openPutAuto(auto,pd)"></i>
+                    <i class="far fa-trash-alt fa-lg text-danger ms-3" (click)="onDeleteAuto(pd.idAuto)"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<ng-template #lokacija let-c="close" let-d="dismiss">
+    <form novalidate autocomplete="off" #form="ngForm" (submit)="onSubmitLokacija(form)">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Unos Lokacije</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click'); resetFormLokacija(form)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+
+            <div class="from-group">
+                <label>Naziv</label>
+                <input required class="form-control form-control-lg" placeholder="Naziv Lokacije" name="naziv" #naziv="ngModel" 
+                    [(ngModel)]="service.fromDataLokacija.naziv">
+            </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" type="submit" [disabled]="form.invalid"
+                (click)="d('Cross click')">POTVRDI</button>
+        </div>
+    </form>
+</ng-template>
+
+
+<ng-template #putnik let-c="close" let-d="dismiss">
+    <form novalidate autocomplete="off" #form="ngForm" (submit)="onSubmitPutnik(form)">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Unos Putnika</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click'); resetFormPutnik(form)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+
+            <div class="from-group">
+                <label>Ime</label>
+                <input required class="form-control form-control-lg" placeholder="Ime" name="imeKorisnik" #imeKorisnik="ngModel" 
+                    [(ngModel)]="service.fromDataKorisnici.imeKorisnik">
+                <label>Prezime</label>
+                <input required class="form-control form-control-lg" placeholder="Prezime" name="prezimeKorisnik" 
+                    #prezimeKorisnik="ngModel" [(ngModel)]="service.fromDataKorisnici.prezimeKorisnik">
+            </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" type="submit" [disabled]="form.invalid"
+                (click)="d('Cross click')">POTVRDI</button>
+        </div>
+    </form>
+</ng-template>
+
+
+<ng-template #auto let-c="close" let-d="dismiss">
+    <form novalidate autocomplete="off" #form="ngForm" (submit)="onSubmitAuto(form)">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Unos Automobila</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click'); resetFormAuto(form)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+
+            <div class="from-group">
+                <label>Marka</label>
+                <input required class="form-control form-control-lg mb-3" placeholder="Marka" name="markaAuta" #markaAuta="ngModel" 
+                    [(ngModel)]="service.fromDataAuto.markaAuta">
+                <label>Naziv</label>
+                <input required class="form-control form-control-lg mb-3" placeholder="Naziv" name="nazivAuta" #nazivAuta="ngModel" 
+                    [(ngModel)]="service.fromDataAuto.nazivAuta">
+                <label>Registracija</label>
+                <input required class="form-control form-control-lg mb-3" placeholder="Naziv" name="registracijaAuta" 
+                    #registracijaAuta="ngModel" [(ngModel)]="service.fromDataAuto.registracijaAuta" pattern="[a-zA-Z]{2}[0-9]{3,4}[a-zA-Z]{2}" [class.invalid]="registracijaAuta.invalid && registracijaAuta.touched"
+                    >
+            </div>
+
+            <div class="from-group mt-3">
+                <label>Vrsta Prijevoza</label>
+                <div class="ml-5">
+                    <div>
+                        <input required type="radio" class="form-check-input" name="materialExampleRadios" #vrstaPrijevoza="ngModel" [(ngModel)]="service.fromDataAuto.vrstaPrijevoza" [value]=1>
+                        <label class="form-check-label">Osobni automobil</label>
+                    </div>
+
+                    <div>
+                        <input required type="radio" class="form-check-input" name="materialExampleRadios" #vrstaPrijevoza="ngModel" [(ngModel)]="service.fromDataAuto.vrstaPrijevoza" [value]=2>
+                        <label class="form-check-label">Službeni automobil</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" type="submit" [disabled]="form.invalid"
+                (click)="d('Cross click')">POTVRDI</button>
+        </div>
+    </form>
+</ng-template>

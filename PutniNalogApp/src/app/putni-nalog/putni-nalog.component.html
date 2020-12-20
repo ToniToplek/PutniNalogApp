@@ -1,0 +1,36 @@
+<div class="jumbotron py-0 pb-4"> 
+    <h1 class="display-4 text-center">Pregled putnih naloga</h1>
+</div>
+
+<div>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Redni broj</th>                
+                <th>Polazak</th>
+                <th>Povratak</th>
+                <th>Razlog putovanja</th>
+                <th>Putnici</th>
+                <th>Polazište</th>
+                <th>Odredište</th>
+                <th>Prijevoz</th>
+                <th class="text-right"><i class="fas fa-plus-circle fa-lg text-success" ></i></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pd of service.list">
+                <td (click)="populateForm(pd)">{{pd.idPutniNalog}}</td>               
+                <td (click)="populateForm(pd)">{{pd.vrijemePolazak |date:'dd/MM/yyyy HH:mm'}}</td>
+                <td (click)="populateForm(pd)">{{pd.vrijemePovratak |date:'dd/MM/yyyy HH:mm'}}</td>
+                <td (click)="populateForm(pd)">{{pd.razlogPutovanja}}</td>
+                <td (click)="populateForm(pd)">{{pd.korisniciNalogs}}</td>
+                <td (click)="populateForm(pd)">{{pd.lokacijePolaziste}}</td>
+                <td (click)="populateForm(pd)">{{pd.lokacijeOdrediste}}</td>
+                <td (click)="populateForm(pd)">{{pd.auti}}</td>
+                <td>
+                    <i class="far fa-trash-alt fa-lg text-danger" (click)="onDelete(pd.idPutniNalog)"></i>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

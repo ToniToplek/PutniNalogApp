@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+
+.from-group label{
+    color: gray;
+}
+
+.from-group input{
+    font-weight: 500;
+}
+
+.from-group input::placeholder{
+    color: #c0bdbd;
+    font-weight: 300;
+}
+
+thead th{
+    font-weight: 400;
+}
+
+table tbody tr:hover{
+    background-color: #fffbf2;
+    cursor: pointer;
+}
+
+input.invalid{
+    border-color: red;
+}
