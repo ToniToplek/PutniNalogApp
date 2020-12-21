@@ -1,12 +1,11 @@
-<div class="jumbotron py-0 pb-4"> 
+<div class="jumbotron py-0 pb-4">
     <h1 class="display-4 text-center">Pregled putnih naloga</h1>
 </div>
-
 <div>
     <table class="table">
         <thead class="thead-light">
             <tr>
-                <th>Redni broj</th>                
+                <th>Redni broj</th>
                 <th>Polazak</th>
                 <th>Povratak</th>
                 <th>Razlog putovanja</th>
@@ -14,12 +13,14 @@
                 <th>Polazište</th>
                 <th>Odredište</th>
                 <th>Prijevoz</th>
-                <th class="text-right"><i class="fas fa-plus-circle fa-lg text-success" ></i></th>
+                <th>
+                    <i class="fas fa-plus-circle fa-lg text-success " (click)="divShow();resetForm1()"></i>
+                </th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let pd of service.list">
-                <td (click)="populateForm(pd)">{{pd.idPutniNalog}}</td>               
+                <td (click)="populateForm(pd)">{{pd.idPutniNalog}}</td>
                 <td (click)="populateForm(pd)">{{pd.vrijemePolazak |date:'dd/MM/yyyy HH:mm'}}</td>
                 <td (click)="populateForm(pd)">{{pd.vrijemePovratak |date:'dd/MM/yyyy HH:mm'}}</td>
                 <td (click)="populateForm(pd)">{{pd.razlogPutovanja}}</td>
@@ -33,4 +34,146 @@
             </tr>
         </tbody>
     </table>
+</div>
+
+<div *ngIf="div1">
+    <form novalidate autocomplete="off" #form="ngForm" (submit)="onSubmit(form)">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Unos Putnog Naloga</h4>
+            <button type="button" class="close" aria-label="Close" (click)="resetForm(form); divShow()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <input type="hidden" name="idPutniNalog" [value]="service.formData.idPutniNalog" />
+
+            <div class="from-group mb-3">
+                <label>Razlog putovanja</label>
+                <input required class="form-control form-control-lg" placeholder="Razlog" name="razlogPutovanja"
+                    #razlogPutovanja="ngModel" [(ngModel)]="service.formData.razlogPutovanja">
+            </div>
+
+
+            <div class="from-group">
+                <label class="mr-3">Vrijeme odlaska</label>
+                <input required [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" name="vrijemePolazak"
+                    #vrijemePolazak="ngModel" [(ngModel)]="service.formData.vrijemePolazak">
+                <owl-date-time #dt1 [firstDayOfWeek]=1></owl-date-time>
+            </div>
+            <div class="from-group">
+                <label class="mr-2">Vrijeme povratka</label>
+                <input required [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" name="vrijemePovratak"
+                    #vrijemePovratak="ngModel" [(ngModel)]="service.formData.vrijemePovratak">
+                <owl-date-time #dt2 [firstDayOfWeek]=1></owl-date-time>
+            </div>
+
+
+            <div class="form-group">
+                <label>Putnici</label>
+                <select required class="form-control" >
+                    <option *ngFor="let pd of service.listPutnika">{{pd.imeKorisnik}} {{pd.prezimeKorisnik}}</option>
+                </select>
+            </div>
+
+            <div hidden *ngIf="div2" class="form-group">
+                <label >Putnici</label>
+                <select required class="form-control" >
+                    <option *ngFor="let pd of service.listPutnika">{{pd.imeKorisnik}} {{pd.prezimeKorisnik}}</option>
+                </select>
+            </div>
+            
+            <div hidden *ngIf="div3" class="form-group">
+                <label >Putnici</label>
+                <select required class="form-control" >
+                    <option *ngFor="let pd of service.listPutnika">{{pd.imeKorisnik}} {{pd.prezimeKorisnik}}</option>
+                </select>
+            </div>
+            
+            <div hidden *ngIf="div4" class="form-group">
+                <label >Putnici</label>
+                <select required class="form-control" >
+                    <option *ngFor="let pd of service.listPutnika">{{pd.imeKorisnik}} {{pd.prezimeKorisnik}}</option>
+                </select>
+            </div>
+
+            <div hidden *ngIf="div5" class="form-group">
+                <label >Putnici</label>
+                <select  required class="form-control" >
+                    <option *ngFor="let pd of service.listPutnika">{{pd.imeKorisnik}} {{pd.prezimeKorisnik}}</option>
+                </select>
+            </div>
+
+
+            <div  class="form-group">
+                <label >Polazište</label>
+                <select required class="form-control" >
+                    <option *ngFor="let pd of service.listLokacija">{{pd.naziv}}</option>
+                </select>
+            </div>
+
+            <div  class="form-group">
+                <label >Odredište</label>
+                <select required class="form-control" >
+                    <option *ngFor="let pd of service.listLokacija">{{pd.naziv}}</option>
+                </select>
+            </div>
+
+            <div class="from-group mt-3">
+                <label>Vrsta Prijevoza</label>
+                <div class="ml-5">
+                    <div>
+                        <input required type="radio" class="form-check-input" name="materialExampleRadios" #vrstaPrijevoza="ngModel" [(ngModel)]="service.fromDataAuto.vrstaPrijevoza" >
+                        <label class="form-check-label">Javni prijevoz</label>
+                    </div>
+
+                    <div>
+                        <input required type="radio" class="form-check-input" name="materialExampleRadios" #vrstaPrijevoza="ngModel" [(ngModel)]="service.fromDataAuto.vrstaPrijevoza" [value]=1>
+                        <label class="form-check-label">Osobni automobil</label>
+                    </div>
+
+                    <div>
+                        <input required type="radio" class="form-check-input" name="materialExampleRadios" #vrstaPrijevoza="ngModel" [(ngModel)]="service.fromDataAuto.vrstaPrijevoza" [value]=2>
+                        <label class="form-check-label">Službeni automobil</label>
+                    </div>
+
+    
+                </div>
+            </div>
+
+
+            
+            <div  class="form-group">
+                <label >Odredište</label>
+                <select required class="form-control" >
+                    <option *ngFor="let pd of service.listAuto">{{pd.registracijaAuta}}</option>
+                </select>
+            </div>
+
+
+
+            <div class="from-group">
+                <label>Komentar</label>
+                <input class="form-control form-control-lg" placeholder="Komentar" name="komentar" #komentar="ngModel"
+                    [(ngModel)]="service.formData.komentar">
+            </div>
+
+
+            <div class="from-group">
+                <label>E-mail</label>
+                <input class="form-control form-control-lg" placeholder="E-mail" name="email" #email="ngModel"
+                    [(ngModel)]="service.formData.email" required email
+                    [class.invalid]="email.invalid && email.touched">
+            </div>
+
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-outline-danger " (click)="resetForm(form); divShow()">ODUSTANI</button>
+            <button type="button" class="btn btn-outline-info text-info" type="submit"
+                [disabled]="form.invalid">POTVRDI</button>
+        </div>
+
+    </form>
 </div>

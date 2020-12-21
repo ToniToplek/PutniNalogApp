@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Auto, Korisnici, Lokacija, PutniNalog } from '../shared/putni-nalog.model';
+import { Auto, Korisnici, Lokacija} from '../shared/putni-nalog.model';
 import { PutniNalogService } from '../shared/putni-nalog.service';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'
 import {NgForm} from '@angular/forms';
