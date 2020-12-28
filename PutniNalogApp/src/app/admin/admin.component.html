@@ -67,7 +67,9 @@
                 <td>{{pd.markaAuta}}</td>
                 <td>{{pd.nazivAuta}}</td>
                 <td>{{pd.registracijaAuta}}</td>
-                <td>{{pd.vrstaPrijevoza}}</td>       
+                <td *ngIf="pd.idAuto===0">Javni prijevoz</td>  
+                <td *ngIf="pd.idAuto===1">Osobni automobil</td>
+                <td *ngIf="pd.idAuto===2">Službeni automobil</td>
                         
                 <td align="right">                   
                     <i class="fas fa-pencil-alt fa-lg text-primary ms-3" (click)="openPutAuto(auto,pd)"></i>
@@ -92,7 +94,7 @@
             <div class="from-group">
                 <label>Naziv</label>
                 <input required class="form-control form-control-lg" placeholder="Naziv Lokacije" name="naziv" #naziv="ngModel" 
-                    [(ngModel)]="service.fromDataLokacija.naziv">
+                    [(ngModel)]="service.formDataLokacija.naziv">
             </div>
 
 
@@ -120,10 +122,10 @@
             <div class="from-group">
                 <label>Ime</label>
                 <input required class="form-control form-control-lg" placeholder="Ime" name="imeKorisnik" #imeKorisnik="ngModel" 
-                    [(ngModel)]="service.fromDataKorisnici.imeKorisnik">
+                    [(ngModel)]="service.formDataKorisnici.imeKorisnik">
                 <label>Prezime</label>
                 <input required class="form-control form-control-lg" placeholder="Prezime" name="prezimeKorisnik" 
-                    #prezimeKorisnik="ngModel" [(ngModel)]="service.fromDataKorisnici.prezimeKorisnik">
+                    #prezimeKorisnik="ngModel" [(ngModel)]="service.formDataKorisnici.prezimeKorisnik">
             </div>
 
 
@@ -151,13 +153,13 @@
             <div class="from-group">
                 <label>Marka</label>
                 <input required class="form-control form-control-lg mb-3" placeholder="Marka" name="markaAuta" #markaAuta="ngModel" 
-                    [(ngModel)]="service.fromDataAuto.markaAuta">
+                    [(ngModel)]="service.formDataAuto.markaAuta">
                 <label>Naziv</label>
                 <input required class="form-control form-control-lg mb-3" placeholder="Naziv" name="nazivAuta" #nazivAuta="ngModel" 
-                    [(ngModel)]="service.fromDataAuto.nazivAuta">
+                    [(ngModel)]="service.formDataAuto.nazivAuta">
                 <label>Registracija</label>
-                <input required class="form-control form-control-lg mb-3" placeholder="Naziv" name="registracijaAuta" 
-                    #registracijaAuta="ngModel" [(ngModel)]="service.fromDataAuto.registracijaAuta" pattern="[a-zA-Z]{2}[0-9]{3,4}[a-zA-Z]{2}" [class.invalid]="registracijaAuta.invalid && registracijaAuta.touched"
+                <input required class="form-control form-control-lg mb-3" placeholder="XX000XX" name="registracijaAuta" 
+                    #registracijaAuta="ngModel" [(ngModel)]="service.formDataAuto.registracijaAuta" pattern="[a-zA-Z]{2}[0-9]{3,4}[a-zA-Z]{2}" [class.invalid]="registracijaAuta.invalid && registracijaAuta.touched"
                     >
             </div>
 
@@ -165,12 +167,12 @@
                 <label>Vrsta Prijevoza</label>
                 <div class="ml-5">
                     <div>
-                        <input required type="radio" class="form-check-input" name="materialExampleRadios" #vrstaPrijevoza="ngModel" [(ngModel)]="service.fromDataAuto.vrstaPrijevoza" [value]=1>
+                        <input required type="radio" class="form-check-input" name="materialExampleRadios" #vrstaPrijevoza="ngModel" [(ngModel)]="service.formDataAuto.vrstaPrijevoza" [value]=1>
                         <label class="form-check-label">Osobni automobil</label>
                     </div>
 
                     <div>
-                        <input required type="radio" class="form-check-input" name="materialExampleRadios" #vrstaPrijevoza="ngModel" [(ngModel)]="service.fromDataAuto.vrstaPrijevoza" [value]=2>
+                        <input required type="radio" class="form-check-input" name="materialExampleRadios" #vrstaPrijevoza="ngModel" [(ngModel)]="service.formDataAuto.vrstaPrijevoza" [value]=2>
                         <label class="form-check-label">Službeni automobil</label>
                     </div>
                 </div>

@@ -7,11 +7,12 @@ export class PutniNalog {
     email:string='';
     kmPocetak:number=0;
     kmZavrsetak:number=0;
+    idAuto:number=0;
     auti:Auto;
+    idPolaziste:number=0;
     lokacijePolaziste: Lokacija;
+    idOdrediste:number=0;
     lokacijeOdrediste: Lokacija;
-    korisniciNalogs:KorisniciNalog;
-    trosakNalogs:TrosakNalog;
 }
 
 export class Auto{
@@ -21,36 +22,31 @@ export class Auto{
     nazivAuta:string='';
     kilometraza:number=0;
     vrstaPrijevoza:number=0;
-    putniNalogs:PutniNalog;
 }
 
 export class Lokacija{
     idLokacija:number=0;
     naziv:string='';
-    putniNalogs:PutniNalog;
 }
 
 export class Korisnici{
     idKorisnik:number=0;
     imeKorisnik:string='';
     prezimeKorisnik:string='';
-    korisniciNalogs:KorisniciNalog;
 }
 
 export class KorisniciNalog{
     idKorisniciNalog:number=0;
+    idKorisnik:number=0;
     korisnik:Korisnici;
-    putniNalog:PutniNalog
+    idPutniNalog:number=0;
+    putniNalog:PutniNalog;
 }
 
 export class Triskovi{
     idTrosak:number=0;
     opisTroska:string='';
     iznos:number=0;
-    trosakNalogs:TrosakNalog;
-}
-export class TrosakNalog{
-    idTrosakNalog:number=0;
-    trosak:Triskovi;
-    putniNalog:PutniNalog
+    idPutniNalog:number=0;
+    putniNalog:PutniNalog;
 }

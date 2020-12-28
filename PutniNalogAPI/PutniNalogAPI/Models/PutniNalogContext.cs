@@ -19,7 +19,6 @@ namespace PutniNalogAPI.Models
         public DbSet<KorisniciNalog> KorisniciNalogs { get; set; }
         public DbSet<Lokacije> Lokacijes { get; set; }
         public DbSet<Troskovi> Troskovis { get; set; }
-        public DbSet<TrosakNalog> TrosakNalogs { get; set; }
 
     }
 

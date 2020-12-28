@@ -14,7 +14,11 @@ namespace PutniNalogAPI.Models
         [Required]
         public string Naziv { get; set; }
 
-        public virtual ICollection<PutniNalog> PutniNalogs { get; set; }
+        [InverseProperty("Odrediste")]
+        public virtual ICollection<PutniNalog> PutniNalogOdrediste { get; set; }
+
+        [InverseProperty("Polaziste")]
+        public virtual ICollection<PutniNalog> PutniNalogPolaziste { get; set; }
 
     }
 }

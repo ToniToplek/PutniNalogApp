@@ -2,7 +2,7 @@ import { Component, NgModule, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { PutniNalog } from '../shared/putni-nalog.model';
 import { PutniNalogService } from '../shared/putni-nalog.service';
-import {NgForm, ReactiveFormsModule} from '@angular/forms';
+import { NgForm, ReactiveFormsModule } from '@angular/forms';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'
 
 @Component({
@@ -16,7 +16,7 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'
 export class PutniNalogComponent implements OnInit {
 
   constructor(public service: PutniNalogService,
-    private toastr:ToastrService,
+    private toastr: ToastrService,
     config: NgbModalConfig,
     private modalService: NgbModal) { }
 
@@ -25,104 +25,100 @@ export class PutniNalogComponent implements OnInit {
     this.service.refreshListLokacija();
     this.service.refreshListPutnik();
     this.service.refreshListAuto();
+    this.service.refreshListKorisniciNalog();
   }
 
   open(any: any) {
     this.modalService.open(any);
   }
 
-  populateForm(selectedRecord:PutniNalog){
+  populateForm(selectedRecord: PutniNalog) {
     this.service.formData = Object.assign({}, selectedRecord);
-
   }
 
-  onDelete(id:number){
-    if(confirm('Jeste li sigurni da želite obrisati putni nalog?'))
-    {   
-    this.service.deletePutniNalog(id)
-    .subscribe(
-      res=>{
-        this.service.refreshList();
-        this.toastr.error("Uspješno obrisano", 'Putni Nalog');
-      },
-      err=>{console.log(err)}
-    )
-    }    
+  onDelete(id: number) {
+    if (confirm('Jeste li sigurni da želite obrisati putni nalog?')) {
+      this.service.deletePutniNalog(id)
+        .subscribe(
+          res => {
+            this.service.refreshList();
+            this.toastr.error("Uspješno obrisano", 'Putni Nalog');
+          },
+          err => { console.log(err) }
+        )
+    }
   }
-  
-  onSubmit(form:NgForm){
-    if(this.service.formData.idPutniNalog==0)
+
+  onSubmit(form: NgForm) {
+
+    if (this.service.formData.idPutniNalog == 0)
       this.insertRecord(form);
     else
       this.updateRecord(form);
   }
 
-  insertRecord(form:NgForm){
+  insertRecord(form: NgForm) {
     this.service.postPutniNalog().subscribe(
-      res =>{
-          this.resetForm(form);
-          this.service.refreshList();
-          this.toastr.success('Uspješan unos','Putni Nalog')
+      res => {
+        this.resetForm(form);
+        this.service.refreshList();
+        this.toastr.success('Uspješan unos', 'Putni Nalog')
       },
-      err=>{
+      err => {
+        console.log(err);
+      }
+    ); this.service.postKorisniciNalog().subscribe(
+      res => {
+        this.service.refreshListKorisniciNalog();
+      },
+      err => {
         console.log(err);
       }
     );
   }
 
-  updateRecord(form:NgForm){
+  updateRecord(form: NgForm) {
     this.service.putPutniNalog().subscribe(
-      res =>{
-          this.resetForm(form);
-          this.service.refreshList();
-          this.toastr.info('Uspješno uređeno','Putni Nalog')
+      res => {
+        this.resetForm(form);
+        this.service.refreshList();
+        this.toastr.info('Uspješno uređeno', 'Putni Nalog')
       },
-      err=>{
+      err => {
+        console.log(err);
+      }
+    );this.service.putKorisniciNalog().subscribe(
+      res => {
+        this.service.refreshListKorisniciNalog();
+      },
+      err => {
         console.log(err);
       }
     );
   }
 
-  resetForm(form:NgForm){
+  resetForm(form: NgForm) {
     form.form.reset();
     this.service.formData = new PutniNalog();
   }
-  
-  resetForm1(){
+
+  resetForm1() {
     this.service.formData = new PutniNalog();
   }
 
-  div2:boolean=false;
-  div3:boolean=false;
-  div4:boolean=false;
-  div5:boolean=false;
-  i:number=0;
-  addPutnik1(){
-    
-  }
 
-  addPutnik(){
-    this.i=this.i+1;
-    if(this.i==1)
-      this.div2=true;
-    else if(this.i==2)
-      this.div3=true;
-    else if(this.i==3)
-      this.div4=true;
-    else
-      this.div5=true;
-  }
-
-  openAdminForm(){
+  openAdminForm() {
     window.open('./admin-form.component.html', "_self");
   }
-  div1:boolean=false;
+  div1: boolean = false;
 
-  divShow(){
-    if(this.div1==true){
-      this.div1=false
-    }else
-    this.div1=true
+  divShow() {
+    if (this.div1 == true) {
+      this.div1 = false
+    } else
+      this.div1 = true
   }
-
+  divShow1() {
+    this.div1 = true
+  }
 }

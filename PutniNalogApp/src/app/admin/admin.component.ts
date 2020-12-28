@@ -47,15 +47,15 @@ export class AdminComponent implements OnInit {
   }
 
   populateFormLokacija(selectedRecord: Lokacija) {
-    this.service.fromDataLokacija = Object.assign({}, selectedRecord);
+    this.service.formDataLokacija = Object.assign({}, selectedRecord);
   }
 
   populateFormKorisnici(selectedRecord: Korisnici) {
-    this.service.fromDataKorisnici = Object.assign({}, selectedRecord);
+    this.service.formDataKorisnici = Object.assign({}, selectedRecord);
   }
 
   populateFormAuto(selectedRecord: Auto) {
-    this.service.fromDataAuto = Object.assign({}, selectedRecord);
+    this.service.formDataAuto = Object.assign({}, selectedRecord);
   }
 
 
@@ -100,7 +100,7 @@ export class AdminComponent implements OnInit {
 
 
   onSubmitLokacija(form:NgForm){
-    if(this.service.fromDataLokacija.idLokacija==0)
+    if(this.service.formDataLokacija.idLokacija==0)
       this.insertRecordLokacija(form);
     else
       this.updateRecordLokacija(form);
@@ -134,14 +134,14 @@ export class AdminComponent implements OnInit {
 
   resetFormLokacija(form:NgForm){
     form.form.reset();
-    this.service.fromDataLokacija = new Lokacija();
+    this.service.formDataLokacija = new Lokacija();
   }
 
 
 
 
   onSubmitPutnik(form:NgForm){
-    if(this.service.fromDataKorisnici.idKorisnik==0)
+    if(this.service.formDataKorisnici.idKorisnik==0)
       this.insertRecordPutnik(form);
     else
       this.updateRecordPutnik(form);
@@ -175,14 +175,14 @@ export class AdminComponent implements OnInit {
 
   resetFormPutnik(form:NgForm){
     form.form.reset();
-    this.service.fromDataKorisnici = new Korisnici();
+    this.service.formDataKorisnici = new Korisnici();
   }
   
 
 
 
   onSubmitAuto(form:NgForm){
-    if(this.service.fromDataAuto.idAuto==0)
+    if(this.service.formDataAuto.idAuto==0)
       this.insertRecordAuto(form);
     else
       this.updateRecordAuto(form);
@@ -216,6 +216,6 @@ export class AdminComponent implements OnInit {
 
   resetFormAuto(form:NgForm){
     form.form.reset();
-    this.service.fromDataAuto = new Auto();
+    this.service.formDataAuto = new Auto();
   }
 }

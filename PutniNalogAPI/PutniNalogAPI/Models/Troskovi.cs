@@ -19,7 +19,7 @@ namespace PutniNalogAPI.Models
         [Column(TypeName = "decimal(18,2)")]
         public float Iznos { get; set; }
 
-        public virtual ICollection<TrosakNalog> TrosakNalogs { get; set; }
-
+        public int IdPutniNalog { get; set; }
+        public virtual PutniNalog PutniNalog { get; set; }
     }
 }

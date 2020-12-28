@@ -23,7 +23,7 @@ namespace PutniNalogAPI.Models
         [Column(TypeName = "nvarchar(30)")]
         public string RegistracijaAuta { get; set; }
 
-
+        
         [Column(TypeName = "nvarchar(30)")]
         public string MarkaAuta { get; set; }
 

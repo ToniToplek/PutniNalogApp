@@ -69,7 +69,7 @@ namespace PutniNalogAPI.Migrations
 
             modelBuilder.Entity("PutniNalogAPI.Models.KorisniciNalog", b =>
                 {
-                    b.Property<int>("IdKorisniciNalog")
+                    b.Property<int>("idKorisniciNalog")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
@@ -80,7 +80,13 @@ namespace PutniNalogAPI.Migrations
                     b.Property<int?>("PutniNalogIdPutniNalog")
                         .HasColumnType("int");
 
-                    b.HasKey("IdKorisniciNalog");
+                    b.Property<int>("idKorisnik")
+                        .HasColumnType("int");
+
+                    b.Property<int>("idPutniNalog")
+                        .HasColumnType("int");
+
+                    b.HasKey("idKorisniciNalog");
 
                     b.HasIndex("KorisnikIdKorisnik");
 
@@ -99,7 +105,6 @@ namespace PutniNalogAPI.Migrations
                     b.Property<string>("Naziv")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
 
                     b.HasKey("IdLokacija");
 
@@ -120,6 +125,15 @@ namespace PutniNalogAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(30)");
 
+                    b.Property<int>("IdAuto")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdOdrediste")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdPolaziste")
+                        .HasColumnType("int");
+
                     b.Property<int>("KmPocetak")
                         .HasColumnType("int");
 
@@ -129,7 +143,10 @@ namespace PutniNalogAPI.Migrations
                     b.Property<string>("Komentar")
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int?>("LokacijeIdLokacija")
+                    b.Property<int?>("OdredisteIdLokacija")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PolazisteIdLokacija")
                         .HasColumnType("int");
 
                     b.Property<string>("RazlogPutovanja")
@@ -146,31 +163,11 @@ namespace PutniNalogAPI.Migrations
 
                     b.HasIndex("AutiIdAuto");
 
-                    b.HasIndex("LokacijeIdLokacija");
+                    b.HasIndex("OdredisteIdLokacija");
+
+                    b.HasIndex("PolazisteIdLokacija");
 
                     b.ToTable("PutniNalogs");
-                });
-
-            modelBuilder.Entity("PutniNalogAPI.Models.TrosakNalog", b =>
-                {
-                    b.Property<int>("IdTrosakNalog")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int?>("PutniNalogIdPutniNalog")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TrosakIdTrosak")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdTrosakNalog");
-
-                    b.HasIndex("PutniNalogIdPutniNalog");
-
-                    b.HasIndex("TrosakIdTrosak");
-
-                    b.ToTable("TrosakNalogs");
                 });
 
             modelBuilder.Entity("PutniNalogAPI.Models.Troskovi", b =>
@@ -180,13 +177,21 @@ namespace PutniNalogAPI.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int>("IdPutniNalog")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Iznos")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("OpisTrosak")
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int?>("PutniNalogIdPutniNalog")
+                        .HasColumnType("int");
+
                     b.HasKey("IdTrosak");
+
+                    b.HasIndex("PutniNalogIdPutniNalog");
 
                     b.ToTable("Troskovis");
                 });
@@ -212,28 +217,28 @@ namespace PutniNalogAPI.Migrations
                         .WithMany("PutniNalogs")
                         .HasForeignKey("AutiIdAuto");
 
-                    b.HasOne("PutniNalogAPI.Models.Lokacije", "Lokacije")
-                        .WithMany("PutniNalogs")
-                        .HasForeignKey("LokacijeIdLokacija");
+                    b.HasOne("PutniNalogAPI.Models.Lokacije", "Odrediste")
+                        .WithMany("PutniNalogOdrediste")
+                        .HasForeignKey("OdredisteIdLokacija");
+
+                    b.HasOne("PutniNalogAPI.Models.Lokacije", "Polaziste")
+                        .WithMany("PutniNalogPolaziste")
+                        .HasForeignKey("PolazisteIdLokacija");
 
                     b.Navigation("Auti");
 
-                    b.Navigation("Lokacije");
+                    b.Navigation("Odrediste");
+
+                    b.Navigation("Polaziste");
                 });
 
-            modelBuilder.Entity("PutniNalogAPI.Models.TrosakNalog", b =>
+            modelBuilder.Entity("PutniNalogAPI.Models.Troskovi", b =>
                 {
                     b.HasOne("PutniNalogAPI.Models.PutniNalog", "PutniNalog")
-                        .WithMany("TrosakNalogs")
+                        .WithMany("Troskovis")
                         .HasForeignKey("PutniNalogIdPutniNalog");
 
-                    b.HasOne("PutniNalogAPI.Models.Troskovi", "Trosak")
-                        .WithMany("TrosakNalogs")
-                        .HasForeignKey("TrosakIdTrosak");
-
                     b.Navigation("PutniNalog");
-
-                    b.Navigation("Trosak");
                 });
 
             modelBuilder.Entity("PutniNalogAPI.Models.Auti", b =>
@@ -248,19 +253,16 @@ namespace PutniNalogAPI.Migrations
 
             modelBuilder.Entity("PutniNalogAPI.Models.Lokacije", b =>
                 {
-                    b.Navigation("PutniNalogs");
+                    b.Navigation("PutniNalogOdrediste");
+
+                    b.Navigation("PutniNalogPolaziste");
                 });
 
             modelBuilder.Entity("PutniNalogAPI.Models.PutniNalog", b =>
                 {
                     b.Navigation("KorisniciNalogs");
 
-                    b.Navigation("TrosakNalogs");
-                });
-
-            modelBuilder.Entity("PutniNalogAPI.Models.Troskovi", b =>
-                {
-                    b.Navigation("TrosakNalogs");
+                    b.Navigation("Troskovis");
                 });
 #pragma warning restore 612, 618
         }

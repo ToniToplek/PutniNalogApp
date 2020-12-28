@@ -10,10 +10,12 @@ namespace PutniNalogAPI.Models
     public class KorisniciNalog
     {
         [Key]
-        public int IdKorisniciNalog { get; set; }
+        public int idKorisniciNalog { get; set; }
 
-
+        public int idKorisnik { get; set; }
         public virtual Korisnici Korisnik{ get; set; }
+
+        public int idPutniNalog { get; set; }
         public virtual PutniNalog PutniNalog { get; set; }
 
     }

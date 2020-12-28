@@ -39,13 +39,23 @@ namespace PutniNalogAPI.Models
         [Column(TypeName = "int")]
         public int KmZavrsetak { get; set; }
 
+
         public virtual ICollection<KorisniciNalog> KorisniciNalogs { get; set; }
 
-        public virtual ICollection<TrosakNalog> TrosakNalogs { get; set; }
 
+        public int IdAuto { get; set; }
         public virtual Auti Auti { get; set; }
 
-        public virtual Lokacije Lokacije { get; set; }
+        public int IdOdrediste { get; set; }
+        public virtual Lokacije Odrediste { get; set; }
+
+        public int IdPolaziste { get; set; }
+        public virtual Lokacije Polaziste { get; set; }
+
+
+
+        public virtual ICollection<Troskovi> Troskovis { get; set; }
+
 
     }
 

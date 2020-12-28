@@ -11,47 +11,47 @@ namespace PutniNalogAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TrosakNalogController : ControllerBase
+    public class TroskovisController : ControllerBase
     {
         private readonly PutniNalogContext _context;
 
-        public TrosakNalogController(PutniNalogContext context)
+        public TroskovisController(PutniNalogContext context)
         {
             _context = context;
         }
 
-        // GET: api/TrosakNalog
+        // GET: api/Troskovis
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TrosakNalog>>> GetTrosakNalogs()
+        public async Task<ActionResult<IEnumerable<Troskovi>>> GetTroskovis()
         {
-            return await _context.TrosakNalogs.ToListAsync();
+            return await _context.Troskovis.ToListAsync();
         }
 
-        // GET: api/TrosakNalog/5
+        // GET: api/Troskovis/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TrosakNalog>> GetTrosakNalog(int id)
+        public async Task<ActionResult<Troskovi>> GetTroskovi(int id)
         {
-            var trosakNalog = await _context.TrosakNalogs.FindAsync(id);
+            var troskovi = await _context.Troskovis.FindAsync(id);
 
-            if (trosakNalog == null)
+            if (troskovi == null)
             {
                 return NotFound();
             }
 
-            return trosakNalog;
+            return troskovi;
         }
 
-        // PUT: api/TrosakNalog/5
+        // PUT: api/Troskovis/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTrosakNalog(int id, TrosakNalog trosakNalog)
+        public async Task<IActionResult> PutTroskovi(int id, Troskovi troskovi)
         {
-            if (id != trosakNalog.IdTrosakNalog)
+            if (id != troskovi.IdTrosak)
             {
                 return BadRequest();
             }
 
-            _context.Entry(trosakNalog).State = EntityState.Modified;
+            _context.Entry(troskovi).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace PutniNalogAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TrosakNalogExists(id))
+                if (!TroskoviExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace PutniNalogAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/TrosakNalog
+        // POST: api/Troskovis
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TrosakNalog>> PostTrosakNalog(TrosakNalog trosakNalog)
+        public async Task<ActionResult<Troskovi>> PostTroskovi(Troskovi troskovi)
         {
-            _context.TrosakNalogs.Add(trosakNalog);
+            _context.Troskovis.Add(troskovi);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTrosakNalog", new { id = trosakNalog.IdTrosakNalog }, trosakNalog);
+            return CreatedAtAction("GetTroskovi", new { id = troskovi.IdTrosak }, troskovi);
         }
 
-        // DELETE: api/TrosakNalog/5
+        // DELETE: api/Troskovis/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTrosakNalog(int id)
+        public async Task<IActionResult> DeleteTroskovi(int id)
         {
-            var trosakNalog = await _context.TrosakNalogs.FindAsync(id);
-            if (trosakNalog == null)
+            var troskovi = await _context.Troskovis.FindAsync(id);
+            if (troskovi == null)
             {
                 return NotFound();
             }
 
-            _context.TrosakNalogs.Remove(trosakNalog);
+            _context.Troskovis.Remove(troskovi);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool TrosakNalogExists(int id)
+        private bool TroskoviExists(int id)
         {
-            return _context.TrosakNalogs.Any(e => e.IdTrosakNalog == id);
+            return _context.Troskovis.Any(e => e.IdTrosak == id);
         }
     }
 }

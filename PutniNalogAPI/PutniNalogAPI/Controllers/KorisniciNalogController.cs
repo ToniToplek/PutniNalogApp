@@ -46,7 +46,7 @@ namespace PutniNalogAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutKorisniciNalog(int id, KorisniciNalog korisniciNalog)
         {
-            if (id != korisniciNalog.IdKorisniciNalog)
+            if (id != korisniciNalog.idKorisniciNalog)
             {
                 return BadRequest();
             }
@@ -80,7 +80,7 @@ namespace PutniNalogAPI.Controllers
             _context.KorisniciNalogs.Add(korisniciNalog);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetKorisniciNalog", new { id = korisniciNalog.IdKorisniciNalog }, korisniciNalog);
+            return CreatedAtAction("GetKorisniciNalog", new { id = korisniciNalog.idKorisniciNalog }, korisniciNalog);
         }
 
         // DELETE: api/KorisniciNalog/5
@@ -101,7 +101,7 @@ namespace PutniNalogAPI.Controllers
 
         private bool KorisniciNalogExists(int id)
         {
-            return _context.KorisniciNalogs.Any(e => e.IdKorisniciNalog == id);
+            return _context.KorisniciNalogs.Any(e => e.idKorisniciNalog == id);
         }
     }
 }

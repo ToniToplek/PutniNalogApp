@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PutniNalogAPI.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Migracija : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace PutniNalogAPI.Migrations
                     RegistracijaAuta = table.Column<string>(type: "nvarchar(30)", nullable: false),
                     MarkaAuta = table.Column<string>(type: "nvarchar(30)", nullable: true),
                     NazivAuta = table.Column<string>(type: "nvarchar(30)", nullable: true),
-                    Kilometraza = table.Column<int>(type: "int", nullable: true),
+                    Kilometraza = table.Column<int>(type: "int", nullable: false),
                     VrstaPrijevoza = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -44,25 +44,11 @@ namespace PutniNalogAPI.Migrations
                 {
                     IdLokacija = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Naziv = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Naziv = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Lokacijes", x => x.IdLokacija);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Troskovis",
-                columns: table => new
-                {
-                    IdTrosak = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OpisTrosak = table.Column<string>(type: "nvarchar(200)", nullable: true),
-                    Iznos = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Troskovis", x => x.IdTrosak);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,10 +62,14 @@ namespace PutniNalogAPI.Migrations
                     VrijemePovratak = table.Column<DateTime>(type: "datetime", nullable: false),
                     Komentar = table.Column<string>(type: "nvarchar(200)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(30)", nullable: false),
-                    KmPocetak = table.Column<int>(type: "int", nullable: true),
-                    KmZavrsetak = table.Column<int>(type: "int", nullable: true),
+                    KmPocetak = table.Column<int>(type: "int", nullable: false),
+                    KmZavrsetak = table.Column<int>(type: "int", nullable: false),
+                    IdAuto = table.Column<int>(type: "int", nullable: false),
                     AutiIdAuto = table.Column<int>(type: "int", nullable: true),
-                    LokacijeIdLokacija = table.Column<int>(type: "int", nullable: true)
+                    IdOdrediste = table.Column<int>(type: "int", nullable: false),
+                    OdredisteIdLokacija = table.Column<int>(type: "int", nullable: true),
+                    IdPolaziste = table.Column<int>(type: "int", nullable: false),
+                    PolazisteIdLokacija = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -91,8 +81,14 @@ namespace PutniNalogAPI.Migrations
                         principalColumn: "IdAuto",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PutniNalogs_Lokacijes_LokacijeIdLokacija",
-                        column: x => x.LokacijeIdLokacija,
+                        name: "FK_PutniNalogs_Lokacijes_OdredisteIdLokacija",
+                        column: x => x.OdredisteIdLokacija,
+                        principalTable: "Lokacijes",
+                        principalColumn: "IdLokacija",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PutniNalogs_Lokacijes_PolazisteIdLokacija",
+                        column: x => x.PolazisteIdLokacija,
                         principalTable: "Lokacijes",
                         principalColumn: "IdLokacija",
                         onDelete: ReferentialAction.Restrict);
@@ -102,14 +98,16 @@ namespace PutniNalogAPI.Migrations
                 name: "KorisniciNalogs",
                 columns: table => new
                 {
-                    IdKorisniciNalog = table.Column<int>(type: "int", nullable: false)
+                    idKorisniciNalog = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    idKorisnik = table.Column<int>(type: "int", nullable: false),
                     KorisnikIdKorisnik = table.Column<int>(type: "int", nullable: true),
+                    idPutniNalog = table.Column<int>(type: "int", nullable: false),
                     PutniNalogIdPutniNalog = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_KorisniciNalogs", x => x.IdKorisniciNalog);
+                    table.PrimaryKey("PK_KorisniciNalogs", x => x.idKorisniciNalog);
                     table.ForeignKey(
                         name: "FK_KorisniciNalogs_Korisnicis_KorisnikIdKorisnik",
                         column: x => x.KorisnikIdKorisnik,
@@ -125,28 +123,24 @@ namespace PutniNalogAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TrosakNalogs",
+                name: "Troskovis",
                 columns: table => new
                 {
-                    IdTrosakNalog = table.Column<int>(type: "int", nullable: false)
+                    IdTrosak = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TrosakIdTrosak = table.Column<int>(type: "int", nullable: true),
+                    OpisTrosak = table.Column<string>(type: "nvarchar(200)", nullable: true),
+                    Iznos = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IdPutniNalog = table.Column<int>(type: "int", nullable: false),
                     PutniNalogIdPutniNalog = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TrosakNalogs", x => x.IdTrosakNalog);
+                    table.PrimaryKey("PK_Troskovis", x => x.IdTrosak);
                     table.ForeignKey(
-                        name: "FK_TrosakNalogs_PutniNalogs_PutniNalogIdPutniNalog",
+                        name: "FK_Troskovis_PutniNalogs_PutniNalogIdPutniNalog",
                         column: x => x.PutniNalogIdPutniNalog,
                         principalTable: "PutniNalogs",
                         principalColumn: "IdPutniNalog",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TrosakNalogs_Troskovis_TrosakIdTrosak",
-                        column: x => x.TrosakIdTrosak,
-                        principalTable: "Troskovis",
-                        principalColumn: "IdTrosak",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -166,19 +160,19 @@ namespace PutniNalogAPI.Migrations
                 column: "AutiIdAuto");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PutniNalogs_LokacijeIdLokacija",
+                name: "IX_PutniNalogs_OdredisteIdLokacija",
                 table: "PutniNalogs",
-                column: "LokacijeIdLokacija");
+                column: "OdredisteIdLokacija");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrosakNalogs_PutniNalogIdPutniNalog",
-                table: "TrosakNalogs",
+                name: "IX_PutniNalogs_PolazisteIdLokacija",
+                table: "PutniNalogs",
+                column: "PolazisteIdLokacija");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Troskovis_PutniNalogIdPutniNalog",
+                table: "Troskovis",
                 column: "PutniNalogIdPutniNalog");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TrosakNalogs_TrosakIdTrosak",
-                table: "TrosakNalogs",
-                column: "TrosakIdTrosak");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -187,16 +181,13 @@ namespace PutniNalogAPI.Migrations
                 name: "KorisniciNalogs");
 
             migrationBuilder.DropTable(
-                name: "TrosakNalogs");
+                name: "Troskovis");
 
             migrationBuilder.DropTable(
                 name: "Korisnicis");
 
             migrationBuilder.DropTable(
                 name: "PutniNalogs");
-
-            migrationBuilder.DropTable(
-                name: "Troskovis");
 
             migrationBuilder.DropTable(
                 name: "Autis");
