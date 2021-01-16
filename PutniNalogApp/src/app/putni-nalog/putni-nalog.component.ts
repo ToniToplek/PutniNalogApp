@@ -34,6 +34,13 @@ export class PutniNalogComponent implements OnInit {
 
   populateForm(selectedRecord: PutniNalog) {
     this.service.formData = Object.assign({}, selectedRecord);
+    let a: any;
+    for (a of this.service.listKorisniciNalog) {
+      if (this.service.formData.idPutniNalog == a["idPutniNalog"]) {
+        this.service.formDataKorisniciNalog.idKorisnik = a["idKorisnik"]
+        console.log(this.service.formDataKorisniciNalog.idKorisnik)
+      }
+    }
   }
 
   onDelete(id: number) {
@@ -59,37 +66,57 @@ export class PutniNalogComponent implements OnInit {
 
   insertRecord(form: NgForm) {
     this.service.postPutniNalog().subscribe(
-      res => {
+      (res: any) => {
+
+        if (res.hasOwnProperty('idPutniNalog')) {
+          this.service.formDataKorisniciNalog.idPutniNalog = res['idPutniNalog'];
+        }
+
+        this.service.postKorisniciNalog().subscribe(
+          res => {
+            this.service.refreshListKorisniciNalog();
+          },
+          err => {
+            console.log(err);
+          }
+        );
+
         this.resetForm(form);
         this.service.refreshList();
-        this.toastr.success('Uspješan unos', 'Putni Nalog')
+        this.toastr.success('Uspješan unos', 'Putni Nalog');
       },
       err => {
         console.log(err);
-      }
-    ); this.service.postKorisniciNalog().subscribe(
-      res => {
-        this.service.refreshListKorisniciNalog();
       },
-      err => {
-        console.log(err);
-      }
     );
+
+
+
   }
 
   updateRecord(form: NgForm) {
     this.service.putPutniNalog().subscribe(
       res => {
+        let obj: any;
+        for (obj of this.service.listKorisniciNalog) {
+          if (this.service.formData.idPutniNalog == obj["idPutniNalog"]) {
+            this.service.formDataKorisniciNalog.idKorisniciNalog = obj["idKorisniciNalog"];
+            this.service.formDataKorisniciNalog.idPutniNalog=obj["idPutniNalog"];
+            console.log(this.service.formDataKorisniciNalog.idKorisniciNalog);
+          }
+        }
+        this.service.putKorisniciNalog().subscribe(
+          res => {
+            this.service.refreshListKorisniciNalog();
+          },
+          err => {
+            console.log(err);
+          }
+        );
+
         this.resetForm(form);
         this.service.refreshList();
         this.toastr.info('Uspješno uređeno', 'Putni Nalog')
-      },
-      err => {
-        console.log(err);
-      }
-    );this.service.putKorisniciNalog().subscribe(
-      res => {
-        this.service.refreshListKorisniciNalog();
       },
       err => {
         console.log(err);

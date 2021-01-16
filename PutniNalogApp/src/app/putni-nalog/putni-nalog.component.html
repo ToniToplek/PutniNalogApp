@@ -27,13 +27,13 @@
                 <td (click)="divShow1();populateForm(pd);open(PutniNalog)">{{pd.vrijemePovratak |date:'dd/MM/yyyy HH:mm'}}</td>
                 <td (click)="divShow1();populateForm(pd);open(PutniNalog)">{{pd.razlogPutovanja}}</td>
                 <ng-container *ngFor="let korisniciNalog of service.listKorisniciNalog">
-                    <div *ngIf="korisniciNalog.idPutniNalog==pd.idPutniNalog">
+                    <td *ngIf="korisniciNalog.idPutniNalog==pd.idPutniNalog">
                         <ng-container *ngFor="let putnici of service.listPutnika">
-                            <td (click)="divShow1();populateForm(pd);open(PutniNalog)"
+                            <div (click)="divShow1();populateForm(pd);open(PutniNalog)"
                                 *ngIf="korisniciNalog.idKorisnik===putnici.idKorisnik">{{putnici.imeKorisnik}}
-                                {{putnici.prezimeKorisnik}}</td>
+                                {{putnici.prezimeKorisnik}}</div>
                         </ng-container>
-                    </div>
+                    </td>
                 </ng-container>
 
 
@@ -73,7 +73,7 @@
             </div>
             <div class="modal-body">
 
-                <input type="text" name="idPutniNalog" [value]="service.formData.idPutniNalog" />
+                <input type="hidden" name="idPutniNalog" [value]="service.formData.idPutniNalog" />
 
                 <div class="from-group mb-3">
                     <label>Razlog putovanja</label>
@@ -81,9 +81,8 @@
                         #razlogPutovanja="ngModel" [(ngModel)]="service.formData.razlogPutovanja">
                 </div>
 
-
                 <div class="from-group">
-                    <label class="mr-3">Vrijeme odlaska</label>
+                     <label class="mr-3">Vrijeme odlaska</label>
                     <input required [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" name="vrijemePolazak"
                         #vrijemePolazak="ngModel" [(ngModel)]="service.formData.vrijemePolazak">
                     <owl-date-time #dt1 [firstDayOfWeek]=1></owl-date-time>
